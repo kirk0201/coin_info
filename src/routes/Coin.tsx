@@ -229,6 +229,8 @@ const TitleWrapper = styled.h1`
 `;
 const Title = styled.div`
   color: ${(props) => props.theme.accentColor};
+  font-weight: 700;
+  font-style: italic;
 `;
 
 const Header = styled.header`

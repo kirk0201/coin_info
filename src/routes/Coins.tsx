@@ -40,11 +40,11 @@ export default function Coins() {
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>CoinTracker</title>
       </Helmet>
 
       <Header>
-        <Title>코인</Title>
+        <Title>CoinTracker</Title>
         {/* <button onClick={toggleDarkHandler}>Toggle Button</button> */}
         <ModeBtn />
       </Header>
@@ -104,4 +104,6 @@ const Loader = styled.div`
 const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
+  font-weight: 700;
+  font-style: italic;
 `;
