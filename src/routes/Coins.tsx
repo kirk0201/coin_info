@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { coinFetch } from "../api";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isDarkAtom, modeAtom } from "../atom";
+import ModeBtn from "../components/ModeBtn";
 export interface ICoin {
   id: string;
   name: string;
@@ -35,8 +36,7 @@ export default function Coins() {
 
   /* React Query 사용 */
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", coinFetch);
-  const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkHandler = () => setDarkAtom((prev) => !prev);
+
   return (
     <Container>
       <Helmet>
@@ -45,7 +45,8 @@ export default function Coins() {
 
       <Header>
         <Title>코인</Title>
-        <button onClick={toggleDarkHandler}>Toggle Button</button>
+        {/* <button onClick={toggleDarkHandler}>Toggle Button</button> */}
+        <ModeBtn />
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
@@ -74,6 +75,7 @@ const Container = styled.div`
   max-width: 480px;
   margin: 0 auto;
 `;
+
 const Header = styled.header`
   height: 15vh;
   display: flex;
@@ -82,8 +84,8 @@ const Header = styled.header`
 `;
 const CoinList = styled.ul``;
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: rgba(0, 0, 0, 0.1);
+  color: ${(props) => props.theme.textColor};
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 10px;

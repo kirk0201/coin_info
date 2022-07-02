@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { ohlcFetch } from "../api";
+import { ohlcFetch, priceCoinFetch } from "../api";
 import ApexCharts from "react-apexcharts";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atom";
@@ -22,15 +22,16 @@ function StickChart({ coinId }: IChartProps) {
   const { isLoading, data } = useQuery<IData[]>(["ohlcv", coinId], () =>
     ohlcFetch(coinId)
   );
-  //   console.log(
-  //     data?.map((price) => [
-  //       new Date(price.time_open), // 날짜
-  //       price.open.toFixed(), // 시작가
-  //       price.high.toFixed(), // 최고가
-  //       price.low.toFixed(), // 최저가
-  //       price.close.toFixed(), // 종가
-  //     ])
-  //   );
+  console.log("data", data);
+  // console.log(
+  //   data?.map((price) => [
+  //     new Date(price.time_open), // 날짜
+  //     price.open.toFixed(), // 시작가
+  //     price.high.toFixed(), // 최고가
+  //     price.low.toFixed(), // 최저가
+  //     price.close.toFixed(), // 종가
+  //   ])
+  // );
   return (
     <ApexCharts
       type="candlestick"
@@ -39,7 +40,7 @@ function StickChart({ coinId }: IChartProps) {
           name: "Price",
           data: data?.map((price) => {
             return {
-              x: new Date(price.time_open),
+              x: new Date((price.time_close as any) * 1000),
               y: [price.open, price.high, price.low, price.close],
             };
           }) as any,
@@ -70,6 +71,12 @@ function StickChart({ coinId }: IChartProps) {
         },
         xaxis: {
           type: "datetime",
+          // labels: {
+          //   show: false,
+          // },
+          categories: data?.map(
+            (price) => (price.time_close as any) * 1000 ?? []
+          ),
         },
         tooltip: {
           y: {

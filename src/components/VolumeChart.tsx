@@ -19,7 +19,7 @@ function VolumeChart({ coinId }: IChartProps) {
           name: "Volume",
           data: data?.map((price) => {
             return {
-              x: new Date(price.time_open),
+              x: new Date((price.time_open as any) * 1000),
               y: price.volume,
             };
           }) as any,
